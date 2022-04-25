@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios';
+
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 
@@ -6,28 +8,22 @@ class MainView extends React.Component {
   constructor() {
     super();
     this.state = {
-      movies: [
-        {
-          _id: 1,
-          Title: 'Predator',
-          Description: 'yada yada yada',
-          ImagePath: '...',
-        },
-        {
-          _id: 2,
-          Title: 'The Termainator',
-          Description: 'yada yada yada',
-          ImagePath: '...',
-        },
-        {
-          _id: 3,
-          Title: 'Total Recall',
-          Description: 'yada yada yada',
-          ImagePath: '...',
-        },
-      ],
+      movies: [],
       selectedMovie: null,
     };
+  }
+
+  componentDidMount() {
+    axios
+      .get('https://afternoon-badlands-59179.herokuapp.com/movies')
+      .then((response) => {
+        this.setState({
+          movies: response.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   setSelectedMovie(newSelectedMovie) {
@@ -39,8 +35,7 @@ class MainView extends React.Component {
   render() {
     const { movies, selectedMovie } = this.state;
 
-    if (movies.length === 0)
-      return <div className="main-view">The list is empty!</div>;
+    if (movies.length === 0) return <div className="main-view" />;
 
     return (
       <div className="main-view">
