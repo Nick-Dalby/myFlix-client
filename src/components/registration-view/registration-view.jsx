@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import './registration-view.scss';
+import { Form, Row, Col, Card, Button } from 'react-bootstrap';
+
 export function RegistrationView(props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -14,52 +17,47 @@ export function RegistrationView(props) {
   };
 
   return (
-    <form>
-      <label>
-        Username:
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </label>
-      <label>
-        Password:
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </label>
-      <label>
-        Email:
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </label>
-      <label>
-        Birthday:
-        <input
-          type="date"
-          value={birthday}
-          onChange={(e) => setBirthday(e.target.value)}
-        />
-      </label>
-      <button type="submit" onClick={handleSubmit}>
-        Register
-      </button>
-    </form>
+    <Row className="main-view justify-content-md-center">
+      <Col md={5}>
+        <Card>
+          <Card.Body>
+            <Form>
+              <Form.Group controlId="formUsername" className="mb-3">
+                <Form.Label>Username:</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter a username"
+                  onChange={(e) => setUsername(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
+              <Form.Group controlId="formPassword" className="mb-3">
+                <Form.Label>Password:</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Enter a password"
+                  onChange={(e) => setPassword(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
+              <Form.Group controlId="formEmail" className="mb-3">
+                <Form.Label>Email:</Form.Label>
+                <Form.Control
+                  type="email"
+                  placeholder="Enter email"
+                  onChange={(e) => setEmail(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
+
+              <Button type="submit" onClick={handleSubmit}>
+                Register
+              </Button>
+            </Form>
+          </Card.Body>
+        </Card>
+      </Col>
+    </Row>
   );
 }
 
 RegistrationView.propTypes = {
-  registered: PropTypes.shape({
-    Username: PropTypes.string.isRequired,
-    Password: PropTypes.string.isRequired,
-    Email: PropTypes.string.isRequired,
-    Birthday: PropTypes.string.isRequired,
-  }),
   onRegistration: PropTypes.func.isRequired,
 };

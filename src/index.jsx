@@ -1,4 +1,5 @@
 import React from 'react';
+import { Container, Navbar } from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import MainView from './components/main-view/main-view';
 
@@ -8,7 +9,16 @@ import './index.scss';
 // Main component (will eventually use all the others)
 class MyFlixApplication extends React.Component {
   render() {
-    return <MainView />;
+    return (
+      <Container>
+        <Navbar bg="dark" variant="dark" fixed="top">
+          <Container>
+            <Navbar.Brand href="#home">MyFlix:</Navbar.Brand>
+          </Container>
+        </Navbar>
+        <MainView />
+      </Container>
+    );
   }
 }
 
