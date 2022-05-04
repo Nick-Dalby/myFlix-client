@@ -42668,7 +42668,7 @@ function RegistrationView(props) {
                                         children: "Birthdate:"
                                     }),
                                     /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Control, {
-                                        type: "birthday",
+                                        type: "date",
                                         placeholder: "Enter date of birth",
                                         value: birthday,
                                         onChange: (e)=>setBirthday(e.target.value)
@@ -43010,8 +43010,6 @@ var _jsxRuntime = require("react/jsx-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _reactRouterDom = require("react-router-dom");
-var _propTypes = require("prop-types");
-var _propTypesDefault = parcelHelpers.interopDefault(_propTypes);
 var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
 var _reactBootstrap = require("react-bootstrap");
@@ -43020,8 +43018,8 @@ function ProfileView({ user , onBackClick  }) {
     _s();
     const [userData, setUserData] = _react.useState({
     });
+    const token = localStorage.getItem('token');
     const getUserData = ()=>{
-        const token = localStorage.getItem('token');
         _axiosDefault.default.get(`https://afternoon-badlands-59179.herokuapp.com/users/${user}`, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -43038,46 +43036,42 @@ function ProfileView({ user , onBackClick  }) {
         getUserData();
     }, []);
     const deleteUser = ()=>{
-        if (confirm('are you sure?') == true) {
-            const token = localStorage.getItem('token');
-            _axiosDefault.default.delete(`https://afternoon-badlands-59179.herokuapp.com/users/${user}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            }).then(()=>{
-                localStorage.clear();
-                alert('account deleted :(');
-                window.open('/', '_self');
-            }).catch((error)=>{
-                console.log(error);
-            });
-        }
+        if (confirm('are you sure?') == true) _axiosDefault.default.delete(`https://afternoon-badlands-59179.herokuapp.com/users/${user}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then(()=>{
+            localStorage.clear();
+            alert('account deleted :(');
+            window.open('/', '_self');
+        }).catch((error)=>{
+            console.log(error);
+        });
     };
-    let date = new Date(userData.Birthday).toLocaleDateString();
     return(/*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Row, {
         className: "justify-content-md-center",
         __source: {
             fileName: "src/components/profile-view/profile-view.jsx",
-            lineNumber: 54
+            lineNumber: 51
         },
         __self: this,
         children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
             md: 10,
             __source: {
                 fileName: "src/components/profile-view/profile-view.jsx",
-                lineNumber: 55
+                lineNumber: 52
             },
             __self: this,
             children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card, {
                 __source: {
                     fileName: "src/components/profile-view/profile-view.jsx",
-                    lineNumber: 56
+                    lineNumber: 53
                 },
                 __self: this,
                 children: /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card.Body, {
                     __source: {
                         fileName: "src/components/profile-view/profile-view.jsx",
-                        lineNumber: 57
+                        lineNumber: 54
                     },
                     __self: this,
                     children: [
@@ -43085,14 +43079,14 @@ function ProfileView({ user , onBackClick  }) {
                             className: "d-flex justify-content-between align-items-baseline",
                             __source: {
                                 fileName: "src/components/profile-view/profile-view.jsx",
-                                lineNumber: 58
+                                lineNumber: 55
                             },
                             __self: this,
                             children: [
                                 /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card.Title, {
                                     __source: {
                                         fileName: "src/components/profile-view/profile-view.jsx",
-                                        lineNumber: 59
+                                        lineNumber: 56
                                     },
                                     __self: this,
                                     children: "User profile:"
@@ -43101,14 +43095,14 @@ function ProfileView({ user , onBackClick  }) {
                                     to: `/users/edit/${user}`,
                                     __source: {
                                         fileName: "src/components/profile-view/profile-view.jsx",
-                                        lineNumber: 60
+                                        lineNumber: 57
                                     },
                                     __self: this,
                                     children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Button, {
                                         variant: "link",
                                         __source: {
                                             fileName: "src/components/profile-view/profile-view.jsx",
-                                            lineNumber: 61
+                                            lineNumber: 58
                                         },
                                         __self: this,
                                         children: "edit"
@@ -43119,7 +43113,7 @@ function ProfileView({ user , onBackClick  }) {
                         /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card.Text, {
                             __source: {
                                 fileName: "src/components/profile-view/profile-view.jsx",
-                                lineNumber: 64
+                                lineNumber: 61
                             },
                             __self: this,
                             children: [
@@ -43128,7 +43122,7 @@ function ProfileView({ user , onBackClick  }) {
                                 /*#__PURE__*/ _jsxRuntime.jsx("br", {
                                     __source: {
                                         fileName: "src/components/profile-view/profile-view.jsx",
-                                        lineNumber: 66
+                                        lineNumber: 63
                                     },
                                     __self: this
                                 }),
@@ -43137,12 +43131,13 @@ function ProfileView({ user , onBackClick  }) {
                                 /*#__PURE__*/ _jsxRuntime.jsx("br", {
                                     __source: {
                                         fileName: "src/components/profile-view/profile-view.jsx",
-                                        lineNumber: 68
+                                        lineNumber: 65
                                     },
                                     __self: this
                                 }),
-                                "Birthdate: ",
-                                date
+                                "Birthday:",
+                                ' ',
+                                userData.Birthday ? new Date(userData.Birthday).toLocaleDateString('en-CA') : ''
                             ]
                         }),
                         /*#__PURE__*/ _jsxRuntime.jsxs("div", {
@@ -43186,9 +43181,6 @@ function ProfileView({ user , onBackClick  }) {
 }
 _s(ProfileView, "LXAOzhxTy9nW1apql5Pcq7dSgFA=");
 _c = ProfileView;
-ProfileView.propTypes = {
-    onBackClick: _propTypesDefault.default.func.isRequired
-};
 var _c;
 $RefreshReg$(_c, "ProfileView");
 
@@ -43197,7 +43189,7 @@ $RefreshReg$(_c, "ProfileView");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react":"6TuXu","prop-types":"1tgq3","react-bootstrap":"h2YVd","@parcel/transformer-js/src/esmodule-helpers.js":"cGARn","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"5ODY1","axios":"iYoWk","react/jsx-runtime":"8xIwr","react-router-dom":"cpyQW"}],"3vZco":[function(require,module,exports) {
+},{"react":"6TuXu","react-bootstrap":"h2YVd","@parcel/transformer-js/src/esmodule-helpers.js":"cGARn","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"5ODY1","axios":"iYoWk","react/jsx-runtime":"8xIwr","react-router-dom":"cpyQW"}],"3vZco":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$fe8a = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -43221,9 +43213,8 @@ function ProfileEdit({ user , onBackClick  }) {
     _s();
     const [userData, setUserData] = _react.useState({
     });
-    let date = new Date(userData.Birthday).toLocaleDateString();
+    const token = localStorage.getItem('token');
     _react.useEffect(()=>{
-        const token = localStorage.getItem('token');
         _axiosDefault.default.get(`https://afternoon-badlands-59179.herokuapp.com/users/${user}`, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -43237,223 +43228,229 @@ function ProfileEdit({ user , onBackClick  }) {
         });
     }, []);
     const handleChange = (e)=>{
-        const { name , value  } = e.target;
         setUserData({
             ...userData,
-            [name]: value
+            [e.target.name]: e.target.value
         });
     };
-    const handleUpdate = ()=>{
-        const token = localStorage.getItem('token');
+    const handleUpdate = (e)=>{
+        e.preventDefault();
+        console.log(userData);
         _axiosDefault.default.put(`https://afternoon-badlands-59179.herokuapp.com/users/${user}`, {
-            Username: userData.Username,
-            Password: userData.Password,
-            Email: userData.Email,
-            Birthday: userData.Birthday
+            Username: userData.username,
+            Password: userData.password,
+            Email: userData.email,
+            Birthday: userData.birthday
         }, {
             headers: {
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token} `
             }
         }).then((response)=>{
-            const data = response.data;
-            alert('Registration successfull, please login!');
-        }).catch((response)=>{
-            console.error(response);
+            console.log(response.data);
+            alert('account updated');
+        }).catch((error)=>{
+            console.log(error);
         });
     };
     return(/*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Row, {
         className: "justify-content-md-center",
         __source: {
             fileName: "src/components/profile-edit/profile-edit.jsx",
-            lineNumber: 57
+            lineNumber: 61
         },
         __self: this,
         children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
             md: 10,
             __source: {
                 fileName: "src/components/profile-edit/profile-edit.jsx",
-                lineNumber: 58
+                lineNumber: 62
             },
             __self: this,
             children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card, {
                 __source: {
                     fileName: "src/components/profile-edit/profile-edit.jsx",
-                    lineNumber: 59
+                    lineNumber: 63
                 },
                 __self: this,
-                children: /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Card.Body, {
+                children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card.Body, {
                     __source: {
                         fileName: "src/components/profile-edit/profile-edit.jsx",
-                        lineNumber: 60
+                        lineNumber: 64
                     },
                     __self: this,
-                    children: [
-                        /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Form, {
-                            __source: {
-                                fileName: "src/components/profile-edit/profile-edit.jsx",
-                                lineNumber: 61
-                            },
-                            __self: this,
-                            children: [
-                                /*#__PURE__*/ _jsxRuntime.jsx("h3", {
-                                    __source: {
-                                        fileName: "src/components/profile-edit/profile-edit.jsx",
-                                        lineNumber: 62
-                                    },
-                                    __self: this,
-                                    children: "Update user profile:"
-                                }),
-                                /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Form.Group, {
-                                    controlId: "formUsername",
-                                    className: "mb-3",
-                                    __source: {
-                                        fileName: "src/components/profile-edit/profile-edit.jsx",
-                                        lineNumber: 63
-                                    },
-                                    __self: this,
-                                    children: [
-                                        /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Label, {
-                                            __source: {
-                                                fileName: "src/components/profile-edit/profile-edit.jsx",
-                                                lineNumber: 64
-                                            },
-                                            __self: this,
-                                            children: "Username:"
-                                        }),
-                                        /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Control, {
-                                            type: "text",
-                                            defaultValue: userData.Username,
-                                            onChange: handleChange,
-                                            __source: {
-                                                fileName: "src/components/profile-edit/profile-edit.jsx",
-                                                lineNumber: 65
-                                            },
-                                            __self: this
-                                        })
-                                    ]
-                                }),
-                                /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Form.Group, {
-                                    controlId: "formPassword",
-                                    className: "mb-3",
-                                    __source: {
-                                        fileName: "src/components/profile-edit/profile-edit.jsx",
-                                        lineNumber: 71
-                                    },
-                                    __self: this,
-                                    children: [
-                                        /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Label, {
-                                            __source: {
-                                                fileName: "src/components/profile-edit/profile-edit.jsx",
-                                                lineNumber: 72
-                                            },
-                                            __self: this,
-                                            children: "Password:"
-                                        }),
-                                        /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Control, {
-                                            type: "password",
-                                            placeholder: "update password",
-                                            onChange: handleChange,
-                                            __source: {
-                                                fileName: "src/components/profile-edit/profile-edit.jsx",
-                                                lineNumber: 73
-                                            },
-                                            __self: this
-                                        })
-                                    ]
-                                }),
-                                /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Form.Group, {
-                                    controlId: "formEmail",
-                                    className: "mb-3",
-                                    __source: {
-                                        fileName: "src/components/profile-edit/profile-edit.jsx",
-                                        lineNumber: 79
-                                    },
-                                    __self: this,
-                                    children: [
-                                        /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Label, {
-                                            __source: {
-                                                fileName: "src/components/profile-edit/profile-edit.jsx",
-                                                lineNumber: 80
-                                            },
-                                            __self: this,
-                                            children: "Email:"
-                                        }),
-                                        /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Control, {
-                                            type: "email",
-                                            defaultValue: userData.Email,
-                                            onChange: handleChange,
-                                            __source: {
-                                                fileName: "src/components/profile-edit/profile-edit.jsx",
-                                                lineNumber: 81
-                                            },
-                                            __self: this
-                                        })
-                                    ]
-                                }),
-                                /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Form.Group, {
-                                    controlId: "formBirthday",
-                                    className: "mb-3",
-                                    __source: {
-                                        fileName: "src/components/profile-edit/profile-edit.jsx",
-                                        lineNumber: 87
-                                    },
-                                    __self: this,
-                                    children: [
-                                        /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Label, {
-                                            __source: {
-                                                fileName: "src/components/profile-edit/profile-edit.jsx",
-                                                lineNumber: 88
-                                            },
-                                            __self: this,
-                                            children: "Birthdate:"
-                                        }),
-                                        /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Control, {
-                                            type: "birthday",
-                                            defaultValue: date,
-                                            onChange: handleChange,
-                                            __source: {
-                                                fileName: "src/components/profile-edit/profile-edit.jsx",
-                                                lineNumber: 89
-                                            },
-                                            __self: this
-                                        })
-                                    ]
-                                })
-                            ]
-                        }),
-                        /*#__PURE__*/ _jsxRuntime.jsxs("div", {
-                            className: "d-flex justify-content-between",
-                            __source: {
-                                fileName: "src/components/profile-edit/profile-edit.jsx",
-                                lineNumber: 96
-                            },
-                            __self: this,
-                            children: [
-                                /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Button, {
-                                    variant: "secondary",
-                                    onClick: ()=>{
-                                        onBackClick();
-                                    },
-                                    __source: {
-                                        fileName: "src/components/profile-edit/profile-edit.jsx",
-                                        lineNumber: 97
-                                    },
-                                    __self: this,
-                                    children: "Back"
-                                }),
-                                /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Button, {
-                                    type: "submit",
-                                    onClick: handleUpdate,
-                                    __source: {
-                                        fileName: "src/components/profile-edit/profile-edit.jsx",
-                                        lineNumber: 105
-                                    },
-                                    __self: this,
-                                    children: "Update"
-                                })
-                            ]
-                        })
-                    ]
+                    children: /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Form, {
+                        __source: {
+                            fileName: "src/components/profile-edit/profile-edit.jsx",
+                            lineNumber: 65
+                        },
+                        __self: this,
+                        children: [
+                            /*#__PURE__*/ _jsxRuntime.jsx("h3", {
+                                __source: {
+                                    fileName: "src/components/profile-edit/profile-edit.jsx",
+                                    lineNumber: 66
+                                },
+                                __self: this,
+                                children: "Update user profile:"
+                            }),
+                            /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Form.Group, {
+                                controlId: "formUsername",
+                                className: "mb-3",
+                                __source: {
+                                    fileName: "src/components/profile-edit/profile-edit.jsx",
+                                    lineNumber: 67
+                                },
+                                __self: this,
+                                children: [
+                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Label, {
+                                        __source: {
+                                            fileName: "src/components/profile-edit/profile-edit.jsx",
+                                            lineNumber: 68
+                                        },
+                                        __self: this,
+                                        children: "Username:"
+                                    }),
+                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Control, {
+                                        type: "text",
+                                        name: "Username",
+                                        defaultValue: userData.Username,
+                                        onChange: (e)=>handleChange(e)
+                                        ,
+                                        __source: {
+                                            fileName: "src/components/profile-edit/profile-edit.jsx",
+                                            lineNumber: 69
+                                        },
+                                        __self: this
+                                    })
+                                ]
+                            }),
+                            /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Form.Group, {
+                                controlId: "formPassword",
+                                className: "mb-3",
+                                __source: {
+                                    fileName: "src/components/profile-edit/profile-edit.jsx",
+                                    lineNumber: 76
+                                },
+                                __self: this,
+                                children: [
+                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Label, {
+                                        __source: {
+                                            fileName: "src/components/profile-edit/profile-edit.jsx",
+                                            lineNumber: 77
+                                        },
+                                        __self: this,
+                                        children: "Password:"
+                                    }),
+                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Control, {
+                                        type: "password",
+                                        name: "Password",
+                                        placeholder: "update password",
+                                        onChange: (e)=>handleChange(e)
+                                        ,
+                                        __source: {
+                                            fileName: "src/components/profile-edit/profile-edit.jsx",
+                                            lineNumber: 78
+                                        },
+                                        __self: this
+                                    })
+                                ]
+                            }),
+                            /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Form.Group, {
+                                controlId: "formEmail",
+                                className: "mb-3",
+                                __source: {
+                                    fileName: "src/components/profile-edit/profile-edit.jsx",
+                                    lineNumber: 85
+                                },
+                                __self: this,
+                                children: [
+                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Label, {
+                                        __source: {
+                                            fileName: "src/components/profile-edit/profile-edit.jsx",
+                                            lineNumber: 86
+                                        },
+                                        __self: this,
+                                        children: "Email:"
+                                    }),
+                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Control, {
+                                        type: "email",
+                                        name: "Email",
+                                        defaultValue: userData.Email,
+                                        onChange: (e)=>handleChange(e)
+                                        ,
+                                        __source: {
+                                            fileName: "src/components/profile-edit/profile-edit.jsx",
+                                            lineNumber: 87
+                                        },
+                                        __self: this
+                                    })
+                                ]
+                            }),
+                            /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Form.Group, {
+                                controlId: "formBirthday",
+                                className: "mb-3",
+                                __source: {
+                                    fileName: "src/components/profile-edit/profile-edit.jsx",
+                                    lineNumber: 94
+                                },
+                                __self: this,
+                                children: [
+                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Label, {
+                                        __source: {
+                                            fileName: "src/components/profile-edit/profile-edit.jsx",
+                                            lineNumber: 95
+                                        },
+                                        __self: this,
+                                        children: "Birthdate:"
+                                    }),
+                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Control, {
+                                        type: "date",
+                                        name: "Birthday",
+                                        defaultValue: userData.Birthday ? new Date(userData.Birthday).toLocaleDateString('en-CA') : '',
+                                        onChange: (e)=>handleChange(e)
+                                        ,
+                                        __source: {
+                                            fileName: "src/components/profile-edit/profile-edit.jsx",
+                                            lineNumber: 96
+                                        },
+                                        __self: this
+                                    })
+                                ]
+                            }),
+                            /*#__PURE__*/ _jsxRuntime.jsxs("div", {
+                                className: "d-flex justify-content-between",
+                                __source: {
+                                    fileName: "src/components/profile-edit/profile-edit.jsx",
+                                    lineNumber: 108
+                                },
+                                __self: this,
+                                children: [
+                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Button, {
+                                        variant: "secondary",
+                                        onClick: ()=>{
+                                            onBackClick();
+                                        },
+                                        __source: {
+                                            fileName: "src/components/profile-edit/profile-edit.jsx",
+                                            lineNumber: 109
+                                        },
+                                        __self: this,
+                                        children: "Back"
+                                    }),
+                                    /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Button, {
+                                        type: "submit",
+                                        onClick: handleUpdate,
+                                        __source: {
+                                            fileName: "src/components/profile-edit/profile-edit.jsx",
+                                            lineNumber: 117
+                                        },
+                                        __self: this,
+                                        children: "Update"
+                                    })
+                                ]
+                            })
+                        ]
+                    })
                 })
             })
         })
@@ -43472,6 +43469,6 @@ $RefreshReg$(_c, "ProfileEdit");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","prop-types":"1tgq3","axios":"iYoWk","react-bootstrap":"h2YVd","@parcel/transformer-js/src/esmodule-helpers.js":"cGARn","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"5ODY1"}]},["hz7ld","XC7La","dLPEP"], "dLPEP", "parcelRequireaec4")
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","react-bootstrap":"h2YVd","@parcel/transformer-js/src/esmodule-helpers.js":"cGARn","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"5ODY1","prop-types":"1tgq3","axios":"iYoWk"}]},["hz7ld","XC7La","dLPEP"], "dLPEP", "parcelRequireaec4")
 
 //# sourceMappingURL=index.6701a6e1.js.map
