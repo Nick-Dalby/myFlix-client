@@ -37,10 +37,10 @@ export function ProfileEdit({ user, onBackClick }) {
       .put(
         `https://afternoon-badlands-59179.herokuapp.com/users/${user}`,
         {
-          Username: userData.username,
-          Password: userData.password,
-          Email: userData.email,
-          Birthday: userData.birthday,
+          Username: userData.Username,
+          Password: userData.Password,
+          Email: userData.Email,
+          Birthday: userData.Birthday,
         },
         {
           headers: {
