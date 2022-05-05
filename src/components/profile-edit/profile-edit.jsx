@@ -7,6 +7,7 @@ import { Button, Card, Row, Col, Form } from 'react-bootstrap';
 
 export function ProfileEdit({ user, onBackClick }) {
   const [userData, setUserData] = useState({});
+  const [passwordErr, setPasswordErr] = useState('');
 
   const token = localStorage.getItem('token');
 
@@ -16,7 +17,7 @@ export function ProfileEdit({ user, onBackClick }) {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
-        setUserData({ ...response.data });
+        setUserData({ ...response.data, Password: '' });
       })
       .catch((error) => {
         console.log(error);
@@ -30,31 +31,50 @@ export function ProfileEdit({ user, onBackClick }) {
     });
   };
 
+  const formatedDOB = userData.Birthday
+    ? new Date(userData.Birthday).toLocaleDateString('en-CA')
+    : '';
+
+  const validate = () => {
+    let isReq = true;
+
+    if (!userData.Password) {
+      setPasswordErr('please update password');
+      isReq = false;
+    } else if (userData.Password.length < 6) {
+      setPasswordErr('Password must be at least 6 characters');
+      isReq = false;
+    }
+    return isReq;
+  };
+
   const handleUpdate = (e) => {
     e.preventDefault();
-    console.log(userData);
-    axios
-      .put(
-        `https://afternoon-badlands-59179.herokuapp.com/users/${user}`,
-        {
-          Username: userData.Username,
-          Password: userData.Password,
-          Email: userData.Email,
-          Birthday: userData.Birthday,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token} `,
+    const isReq = validate();
+    if (isReq) {
+      axios
+        .put(
+          `https://afternoon-badlands-59179.herokuapp.com/users/${user}`,
+          {
+            Username: userData.Username,
+            Password: userData.Password,
+            Email: userData.Email,
+            Birthday: formatedDOB,
           },
-        }
-      )
-      .then((response) => {
-        console.log(response.data);
-        alert('account updated');
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+          {
+            headers: {
+              Authorization: `Bearer ${token} `,
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+          alert('account updated');
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   return (
@@ -76,11 +96,13 @@ export function ProfileEdit({ user, onBackClick }) {
               <Form.Group controlId="formPassword" className="mb-3">
                 <Form.Label>Password:</Form.Label>
                 <Form.Control
+                  required
                   type="password"
                   name="Password"
                   placeholder="update password"
                   onChange={(e) => handleChange(e)}
                 ></Form.Control>
+                {passwordErr && <p className="error">{passwordErr}</p>}
               </Form.Group>
               <Form.Group controlId="formEmail" className="mb-3">
                 <Form.Label>Email:</Form.Label>
@@ -96,11 +118,7 @@ export function ProfileEdit({ user, onBackClick }) {
                 <Form.Control
                   type="date"
                   name="Birthday"
-                  defaultValue={
-                    userData.Birthday
-                      ? new Date(userData.Birthday).toLocaleDateString('en-CA')
-                      : ''
-                  }
+                  defaultValue={formatedDOB}
                   onChange={(e) => handleChange(e)}
                 ></Form.Control>
               </Form.Group>
