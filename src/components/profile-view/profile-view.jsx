@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 
 import axios from 'axios';
 
-import { Button, Card, Row, Col } from 'react-bootstrap';
+import { Row, Col, Container } from 'react-bootstrap';
 
-export function ProfileView({ user, onBackClick }) {
+import UserInfo from './user-info';
+import FavoriteMovies from './favorite-movies';
+
+export function ProfileView({ user, onBackClick, movies }) {
   const [userData, setUserData] = useState({});
 
   const token = localStorage.getItem('token');
@@ -47,43 +49,23 @@ export function ProfileView({ user, onBackClick }) {
     }
   };
 
+  const favMovieList = movies.filter((movie) =>
+    userData.FavoriteMovies?.includes(movie._id)
+  );
+
   return (
-    <Row className="justify-content-md-center">
-      <Col md={10}>
-        <Card>
-          <Card.Body>
-            <div className="d-flex justify-content-between align-items-baseline">
-              <Card.Title>User profile:</Card.Title>
-              <Link to={`/users/edit/${user}`}>
-                <Button variant="link">edit</Button>
-              </Link>
-            </div>
-            <Card.Text>
-              Username: {userData.Username}
-              <br />
-              Email: {userData.Email}
-              <br />
-              Birthday:{' '}
-              {userData.Birthday
-                ? new Date(userData.Birthday).toLocaleDateString('en-CA')
-                : ''}
-            </Card.Text>
-            <div className="d-flex justify-content-between">
-              <Button
-                variant="secondary"
-                onClick={() => {
-                  onBackClick();
-                }}
-              >
-                Back
-              </Button>
-              <Button variant="danger" onClick={() => deleteUser(user)}>
-                Delete account
-              </Button>
-            </div>
-          </Card.Body>
-        </Card>
-      </Col>
-    </Row>
+    <Container>
+      <Row className="justify-content-md-center ">
+        <Col md={9}>
+          <UserInfo
+            userData={userData}
+            onBackClick={onBackClick}
+            deleteUser={deleteUser}
+          />
+        </Col>
+      </Row>
+
+      <FavoriteMovies favMovieList={favMovieList} />
+    </Container>
   );
 }
