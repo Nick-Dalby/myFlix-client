@@ -6,12 +6,16 @@ body {
   padding-top: 4em;
 }
 
-.card {
-  margin: 1.5rem;
-}
-
 .error {
   color: red;
+}
+
+.card-title.h5 {
+  font-size: 1rem;
+}
+
+.card {
+  margin-bottom: 1rem;
 }
 
 
