@@ -15,12 +15,12 @@ export class MovieCard extends React.Component {
         <Card.Img variant="top" src={movie.ImagePath} crossOrigin="anonymous" />
         <Card.Body>
           <Card.Title>{movie.Title}</Card.Title>
-          <Card.Text>{movie.Description}</Card.Text>
-          <div className="d-grid gap-2">
-            <Link to={`/movies/${movie._id}`}>
-              <Button variant="primary">Open</Button>
-            </Link>
-          </div>
+
+          <Link to={`/movies/${movie._id}`}>
+            <Button variant="primary" size="sm">
+              Open
+            </Button>
+          </Link>
         </Card.Body>
       </Card>
     );
