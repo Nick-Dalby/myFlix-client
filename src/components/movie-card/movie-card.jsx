@@ -6,21 +6,30 @@ import { Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import './movie-card.scss';
+import FavButton from '../fav-toggle/fav-toggle';
 
 export class MovieCard extends React.Component {
   render() {
-    const { movie } = this.props;
+    const { movie, userData, movies, user } = this.props;
+
     return (
       <Card>
         <Card.Img variant="top" src={movie.ImagePath} crossOrigin="anonymous" />
         <Card.Body>
           <Card.Title>{movie.Title}</Card.Title>
-
-          <Link to={`/movies/${movie._id}`}>
-            <Button variant="primary" size="sm">
-              Open
-            </Button>
-          </Link>
+          <div className="d-flex justify-content-between">
+            <Link to={`/movies/${movie._id}`}>
+              <Button variant="primary" size="sm">
+                Open
+              </Button>
+            </Link>
+            <FavButton
+              userData={userData}
+              movies={movies}
+              movie={movie}
+              user={user}
+            />
+          </div>
         </Card.Body>
       </Card>
     );
