@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
@@ -11,7 +11,7 @@ import { Navbar } from '../nav-bar/nav-bar';
 import { RegistrationView } from '../registration-view/registration-view';
 import { LoginView } from '../login-view/login-view';
 import { ProfileView } from '../profile-view/profile-view';
-import { ProfileEdit } from '../profile-edit/profile-edit';
+import { ProfileEdit } from '../profile-view/profile-edit';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { DirectorView } from '../director-view/director-view';
@@ -105,6 +105,7 @@ class MainView extends React.Component {
                 return (
                   <ProfileView
                     user={user}
+                    movies={movies}
                     onLoggedIn={this.onLoggedIn}
                     onBackClick={() => history.goBack()}
                   />
@@ -196,6 +197,7 @@ class MainView extends React.Component {
                         (movie) => movie._id === match.params.movieId
                       )}
                       onBackClick={() => history.goBack()}
+                      user={user}
                     />
                   </Col>
                 );
