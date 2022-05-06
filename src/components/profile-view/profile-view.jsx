@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import axios from 'axios';
 
@@ -7,28 +7,7 @@ import { Row, Col, Container } from 'react-bootstrap';
 import UserInfo from './user-info';
 import FavoriteMovies from './favorite-movies';
 
-export function ProfileView({ user, onBackClick, movies }) {
-  const [userData, setUserData] = useState({});
-
-  const token = localStorage.getItem('token');
-
-  const getUserData = () => {
-    axios
-      .get(`https://afternoon-badlands-59179.herokuapp.com/users/${user}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((response) => {
-        setUserData({ ...response.data });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  useEffect(() => {
-    getUserData();
-  }, []);
-
+export function ProfileView({ user, onBackClick, movies, userData }) {
   const deleteUser = () => {
     if (confirm('are you sure?') == true) {
       axios
