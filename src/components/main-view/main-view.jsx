@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import axios from 'axios';
 
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
@@ -23,16 +23,20 @@ class MainView extends React.Component {
     this.state = {
       movies: [],
       user: null,
+      userData: [],
     };
   }
 
   componentDidMount() {
     let accessToken = localStorage.getItem('token');
+    let user = localStorage.getItem('user');
+
     if (accessToken !== null) {
       this.setState({
         user: localStorage.getItem('user'),
       });
       this.getMovies(accessToken);
+      this.getUserData(user);
     }
   }
 
@@ -62,8 +66,28 @@ class MainView extends React.Component {
       });
   }
 
+  getUserData(user) {
+    const token = localStorage.getItem('token');
+    axios
+      .get(`https://afternoon-badlands-59179.herokuapp.com/users/${user}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        this.setState({
+          userData: response.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   render() {
-    const { movies, user } = this.state;
+    const { movies, user, userData } = this.state;
+
+    const favMovieList = movies.filter((movie) =>
+      userData.FavoriteMovies?.includes(movie._id)
+    );
 
     return (
       <Router>
@@ -83,8 +107,13 @@ class MainView extends React.Component {
                   );
                 if (movies.length === 0) return <div className="main-view" />;
                 return movies.map((movie) => (
-                  <Col md={3} key={movie._id}>
-                    <MovieCard movie={movie} />
+                  <Col md={4} key={movie._id}>
+                    <MovieCard
+                      movie={movie}
+                      userData={userData}
+                      movies={movies}
+                      user={user}
+                    />
                   </Col>
                 ));
               }}
@@ -106,6 +135,7 @@ class MainView extends React.Component {
                   <ProfileView
                     user={user}
                     movies={movies}
+                    userData={userData}
                     onLoggedIn={this.onLoggedIn}
                     onBackClick={() => history.goBack()}
                   />
