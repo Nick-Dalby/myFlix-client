@@ -22,9 +22,6 @@ function FavoriteMovies({ favMovieList }) {
                     Open
                   </Button>
                 </Link>
-                <Button variant="success" size="sm">
-                  remove
-                </Button>
               </div>
             </Card.Body>
           </Card>
