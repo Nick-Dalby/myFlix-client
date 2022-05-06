@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
 import { Button, Card } from 'react-bootstrap';
 
@@ -8,8 +9,26 @@ import { Link } from 'react-router-dom';
 import './movie-view.scss';
 
 export class MovieView extends React.Component {
+  addToFavorites(user, movie) {
+    const token = localStorage.getItem('token');
+    axios
+      .post(
+        `https://afternoon-badlands-59179.herokuapp.com/users/${user}/movies/${movie._id}`,
+        null,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then((response) => {
+        alert('added to favorites!');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   render() {
-    const { movie, onBackClick } = this.props;
+    const { movie, onBackClick, user } = this.props;
 
     return (
       <Card className="movie-view">
@@ -30,15 +49,23 @@ export class MovieView extends React.Component {
               <Button variant="link">{movie.Genre.Name}</Button>
             </Link>
           </div>
+          <div className="d-flex justify-content-between">
+            <Button
+              variant="secondary"
+              onClick={() => {
+                onBackClick();
+              }}
+            >
+              Back
+            </Button>
 
-          <Button
-            variant="secondary"
-            onClick={() => {
-              onBackClick();
-            }}
-          >
-            Back
-          </Button>
+            <Button
+              variant="primary"
+              onClick={() => this.addToFavorites(user, movie)}
+            >
+              Add to favorites
+            </Button>
+          </div>
         </Card.Body>
       </Card>
     );
