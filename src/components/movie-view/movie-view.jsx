@@ -5,8 +5,6 @@ import { Button, Card } from 'react-bootstrap';
 
 import { Link } from 'react-router-dom';
 
-import FavButton from '../fav-toggle/fav-toggle';
-
 import './movie-view.scss';
 
 export class MovieView extends React.Component {

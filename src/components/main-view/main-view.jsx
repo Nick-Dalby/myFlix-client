@@ -16,6 +16,7 @@ import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { DirectorView } from '../director-view/director-view';
 import { GenreView } from '../genre-view/genre-view';
+import FavButton from '../fav-toggle/fav-toggle';
 
 class MainView extends React.Component {
   constructor() {
