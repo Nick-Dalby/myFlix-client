@@ -43053,25 +43053,24 @@ function ProfileView({ onBackClick  }) {
             console.log(error);
         });
     };
-    // request user data to display + favorite movie list
     return(/*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Container, {
         __source: {
             fileName: "src/components/profile-view/profile-view.jsx",
-            lineNumber: 55
+            lineNumber: 54
         },
         __self: this,
         children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Row, {
             className: "justify-content-md-center ",
             __source: {
                 fileName: "src/components/profile-view/profile-view.jsx",
-                lineNumber: 56
+                lineNumber: 55
             },
             __self: this,
             children: /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Col, {
                 md: 9,
                 __source: {
                     fileName: "src/components/profile-view/profile-view.jsx",
-                    lineNumber: 57
+                    lineNumber: 56
                 },
                 __self: this,
                 children: [
@@ -43080,7 +43079,7 @@ function ProfileView({ onBackClick  }) {
                         deleteUser: deleteUser,
                         __source: {
                             fileName: "src/components/profile-view/profile-view.jsx",
-                            lineNumber: 58
+                            lineNumber: 57
                         },
                         __self: this
                     }),
@@ -43088,7 +43087,7 @@ function ProfileView({ onBackClick  }) {
                         onClick: onBackClick,
                         __source: {
                             fileName: "src/components/profile-view/profile-view.jsx",
-                            lineNumber: 60
+                            lineNumber: 59
                         },
                         __self: this,
                         children: "back"
