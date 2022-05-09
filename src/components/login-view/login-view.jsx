@@ -1,59 +1,50 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+import axios from 'axios'
 
-import { Form, Button, Row, Col, Card } from 'react-bootstrap';
+import { Row, Col, Card, Form, Button } from 'react-bootstrap'
 
-import axios from 'axios';
+const LoginView = ({ onLoggedIn }) => {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
-import './login-view.scss';
+  const [usernameErr, setUsernameErr] = useState('')
+  const [passwordErr, setPasswordErr] = useState('')
 
-export function LoginView(props) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-
-  const [usernameErr, setUsernameErr] = useState('');
-  const [passwordErr, setPasswordErr] = useState('');
-
-  // validating inputs
   const validate = () => {
-    let isReq = true;
+    let isReq = true
     if (!username) {
-      setUsernameErr('Username required');
-      isReq = false;
+      setUsernameErr('Username required')
+      isReq = false
     } else if (username.length < 2) {
-      setUsernameErr('Username must be two characters or more');
-      isReq = false;
+      setUsernameErr('Username must be two characters or more')
+      isReq = false
     }
     if (!password) {
-      setPasswordErr('Password required');
-      isReq = false;
+      setPasswordErr('Password required')
+      isReq = false
     } else if (password.length < 6) {
-      setPasswordErr('Password must be at least 6 characters');
-      isReq = false;
+      setPasswordErr('Password must be at least 6 characters')
+      isReq = false
     }
-    return isReq;
-  };
-
+    return isReq
+  }
   const handleSubmit = (e) => {
-    e.preventDefault();
-    const isReq = validate();
-    if (isReq) {
-      /* Send a request to the server for authentication */
-      axios
-        .post('https://afternoon-badlands-59179.herokuapp.com/login', {
-          Username: username,
-          Password: password,
-        })
-        .then((response) => {
-          const data = response.data;
-          props.onLoggedIn(data);
-          window.open('/', '_self');
-        })
-        .catch((e) => {
-          console.log('no such user');
-        });
-    }
-  };
+    e.preventDefault()
+    axios
+      .post('https://afternoon-badlands-59179.herokuapp.com/login', {
+        Username: username,
+        Password: password,
+      })
+      .then((response) => {
+        const data = response.data
+        onLoggedIn(data)
+       
+      })
+      .catch((e) => {
+        console.log('no such user')
+      })
+  }
 
   return (
     <Row className="main-view justify-content-md-center">
@@ -81,20 +72,24 @@ export function LoginView(props) {
                 />
                 {passwordErr && <p className="error">{passwordErr}</p>}
               </Form.Group>
-              <Button variant="primary" type="submit" onClick={handleSubmit}>
-                Login
-              </Button>{' '}
-              <Button href="/register" variant="secondary" type="submit">
-                Sign-up
-              </Button>
+              <div className="d-flex justify-content-between">
+                <Button variant="primary" type="submit" onClick={handleSubmit}>
+                  Login
+                </Button>
+                <Button href="/register" variant="secondary" type="submit">
+                  Sign-up
+                </Button>
+              </div>
             </Form>
           </Card.Body>
         </Card>
       </Col>
     </Row>
-  );
+  )
 }
+
+export default LoginView
 
 LoginView.propTypes = {
   onLoggedIn: PropTypes.func.isRequired,
-};
+}
