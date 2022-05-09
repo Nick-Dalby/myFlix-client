@@ -1,45 +1,31 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import { Link } from 'react-router-dom'
 
-import { Button, Card } from 'react-bootstrap';
+import { Card } from 'react-bootstrap'
+import FavButton from '../fav-button/fav-button'
 
-import { Link } from 'react-router-dom';
+import './movie-card.scss'
 
-import './movie-card.scss';
-import FavButton from '../fav-toggle/fav-toggle';
+import { Button } from 'react-bootstrap'
 
-export class MovieCard extends React.Component {
-  render() {
-    const { movie, userData, movies, user } = this.props;
+const MovieCard = ({ movie }) => {
+  
+  return (
 
-    return (
-      <Card>
-        <Card.Img variant="top" src={movie.ImagePath} crossOrigin="anonymous" />
-        <Card.Body>
-          <Card.Title>{movie.Title}</Card.Title>
-          <div className="d-flex justify-content-between">
-            <Link to={`/movies/${movie._id}`}>
-              <Button variant="primary" size="sm">
-                Open
+          <Card>
+            <Card.Img src={movie.ImagePath} crossOrigin="anonymous" />
+            <Card.Title>{movie.Title}</Card.Title>
+            <div className="d-flex justify-content-between">
+              <Link to={`/movies/${movie._id}`}>
+              <Button size="sm">
+                open
               </Button>
-            </Link>
-            <FavButton
-              userData={userData}
-              movies={movies}
-              movie={movie}
-              user={user}
-            />
-          </div>
-        </Card.Body>
-      </Card>
-    );
-  }
+              </Link>
+              <FavButton movie={movie}/>
+            </div>
+          </Card>
+
+  )
 }
 
-MovieCard.propTypes = {
-  movie: PropTypes.shape({
-    Title: PropTypes.string.isRequired,
-    Description: PropTypes.string.isRequired,
-    ImagePath: PropTypes.string.isRequired,
-  }).isRequired,
-};
+export default MovieCard
