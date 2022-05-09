@@ -1,17 +1,16 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Card } from 'react-bootstrap';
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { Button, Card } from 'react-bootstrap'
 
-function UserInfo({ userData, onBackClick, deleteUser }) {
+function UserInfo({ userData, deleteUser }) {
   return (
     <Card>
       <Card.Body>
-        <div className="d-flex justify-content-between align-items-baseline">
-          <Card.Title>User profile:</Card.Title>
-          <Link to={`/users/edit/${userData.Username}`}>
-            <Button variant="link">edit</Button>
-          </Link>
-        </div>
+      <div className="d-flex justify-content-between">
+        <Card.Title>User profile:</Card.Title>
+        <Link to={`/edit/:user`}>
+          <Button variant="link">edit</Button>
+        </Link></div>
         <Card.Text>
           Username: {userData.Username}
           <br />
@@ -24,14 +23,6 @@ function UserInfo({ userData, onBackClick, deleteUser }) {
         </Card.Text>
         <div className="d-flex justify-content-between">
           <Button
-            variant="secondary"
-            onClick={() => {
-              onBackClick();
-            }}
-          >
-            Back
-          </Button>
-          <Button
             variant="danger"
             onClick={() => deleteUser(userData.Username)}
           >
@@ -40,7 +31,7 @@ function UserInfo({ userData, onBackClick, deleteUser }) {
         </div>
       </Card.Body>
     </Card>
-  );
+  )
 }
 
-export default UserInfo;
+export default UserInfo
