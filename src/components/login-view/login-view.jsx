@@ -31,6 +31,7 @@ const LoginView = ({ onLoggedIn }) => {
   }
   const handleSubmit = (e) => {
     e.preventDefault()
+    const isReq = validate();
     axios
       .post('https://afternoon-badlands-59179.herokuapp.com/login', {
         Username: username,
