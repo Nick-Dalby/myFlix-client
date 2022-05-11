@@ -17,6 +17,7 @@ body {
 .card {
   margin-bottom: 1rem;
 }
+
 img {
   object-fit: cover;
   aspect-ratio: 2/3;
@@ -25,5 +26,4 @@ img {
 .card-title {
   height: 3em;
 }
-
 /*# sourceMappingURL=index.caa67093.css.map */
