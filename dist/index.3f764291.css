@@ -1,0 +1,29 @@
+img {
+  object-fit: cover;
+  aspect-ratio: 2/3;
+}
+
+.card-title {
+  height: 3em;
+}
+
+.my-flix {
+  color: steelblue;
+}
+
+body {
+  padding-top: 4em;
+}
+
+.error {
+  color: red;
+}
+
+.card-title.h5 {
+  font-size: 1rem;
+}
+
+.card {
+  margin-bottom: 1rem;
+}
+/*# sourceMappingURL=index.3f764291.css.map */

@@ -5,7 +5,7 @@ import { devToolsEnhancer } from 'redux-devtools-extension'
 
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-import rootReducer from './reducers/reducers'
+import rootReducer from '../src/store/reducers/reducers'
 
 import MainView from './components/main-view/main-view'
 
