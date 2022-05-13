@@ -4,8 +4,6 @@ import axios from 'axios'
 
 import { Row, Col, Container, Button } from 'react-bootstrap'
 
-import FavoriteMovies from '../favorite-movies/favorite-movies'
-
 import UserInfo from './user-info'
 
 export function ProfileView({ onBackClick }) {
@@ -48,7 +46,6 @@ export function ProfileView({ onBackClick }) {
         })
     }
   }
-
 
   return (
     <Container>
