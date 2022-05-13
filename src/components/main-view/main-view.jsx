@@ -3,7 +3,7 @@ import axios from 'axios'
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 
 import { connect } from 'react-redux'
-import { setMovies } from '../../store/actions/actions'
+import { setMovies, setUserData } from '../../store/actions/actions'
 
 import { Container, Row, Col } from 'react-bootstrap'
 
@@ -11,14 +11,14 @@ import MoviesList from '../movies-list/movies-list'
 
 import { Navbar } from '../nav-bar/nav-bar'
 import LoginView from '../login-view/login-view'
-// import MovieCard from '../movie-card/movie-card'
 import MovieDetails from '../movie-details/movie-details'
 import { RegistrationView } from '../registration-view/registration-view'
 import { ProfileView } from '../profile-view/profile-view'
 import { DirectorView } from '../director-view/director-view'
 import { GenreView } from '../genre-view/genre-view'
 import { ProfileEdit } from '../profile-view/profile-edit'
-import FavoriteMovies from '../favorite-movies/favorite-movies'
+
+import Favorites from '../favorites/favorites'
 
 class MainView extends React.Component {
   constructor() {
@@ -36,6 +36,7 @@ class MainView extends React.Component {
     localStorage.setItem('token', authData.token)
     localStorage.setItem('user', authData.user.Username)
     this.getMovies(authData.token)
+    this.getUserData(authData.token)
   }
 
   componentDidMount() {
@@ -46,6 +47,7 @@ class MainView extends React.Component {
         user: localStorage.getItem('user'),
       })
       this.getMovies(accessToken)
+      this.getUserData(accessToken)
     }
   }
 
@@ -56,6 +58,20 @@ class MainView extends React.Component {
       })
       .then((response) => {
         this.props.setMovies(response.data)
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  }
+
+  getUserData(token) {
+    let user = localStorage.getItem('user')
+    axios
+      .get(`https://afternoon-badlands-59179.herokuapp.com/users/${user}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        this.props.setUserData(response.data)
       })
       .catch(function (error) {
         console.log(error)
@@ -118,28 +134,26 @@ class MainView extends React.Component {
               )
             }}
           />
-
-          <Route
-            path={`/favorites/:user`}
-            render={({ history }) => {
-              if (!user)
+          <Row className="justify-content-md-center">
+            <Route
+              path={`/favorites/:user`}
+              render={({ history }) => {
+                if (!user)
+                  return (
+                    <LoginView
+                      movies={movies}
+                      onLoggedIn={(user) => this.onLoggedIn(user)}
+                    />
+                  )
+                if (movies.length === 0) return <div className="main-view" />
                 return (
-                  <LoginView
-                    movies={movies}
-                    onLoggedIn={(user) => this.onLoggedIn(user)}
-                  />
+                  <Col md={5}>
+                    <Favorites onBackClick={() => history.goBack()} />
+                  </Col>
                 )
-              if (movies.length === 0) return <div className="main-view" />
-              return (
-                <Col md={5}>
-                  <FavoriteMovies
-                    onBackClick={() => history.goBack()}
-                    movies={movies}
-                  />
-                </Col>
-              )
-            }}
-          />
+              }}
+            />
+          </Row>
 
           <Route
             path={`/edit/:user`}
@@ -243,7 +257,10 @@ class MainView extends React.Component {
   }
 }
 let mapStateToProps = (state) => {
-  return { movies: state.movies }
+  return {
+    movies: state.movies,
+    userData: state.userData,
+  }
 }
 
-export default connect(mapStateToProps, { setMovies })(MainView)
+export default connect(mapStateToProps, { setMovies, setUserData })(MainView)
