@@ -11,21 +11,21 @@ const FavButton = ({ movie }) => {
   const user = localStorage.getItem('user')
 
   // get array of users favorite movies
-  // useEffect(() => {
-  //   const getFavorites = () => {
-  //     axios
-  //       .get(`https://afternoon-badlands-59179.herokuapp.com/users/${user}`, {
-  //         headers: { Authorization: `Bearer ${token}` },
-  //       })
-  //       .then((response) => {
-  //         setFavMovies(response.data.FavoriteMovies)
-  //       })
-  //       .catch((error) => {
-  //         console.log(error)
-  //       })
-  //   }
-  //   getFavorites()
-  // }, [isFav])
+  useEffect(() => {
+    const getFavorites = () => {
+      axios
+        .get(`https://afternoon-badlands-59179.herokuapp.com/users/${user}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          setFavMovies(response.data.FavoriteMovies)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+    getFavorites()
+  }, [isFav])
 
 
 
