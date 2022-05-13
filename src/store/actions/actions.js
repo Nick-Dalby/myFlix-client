@@ -1,6 +1,7 @@
 // action types:
 export const SET_MOVIES = 'SET_MOVIES'
 export const SET_FILTER = 'SET_FILTER'
+export const SET_USERDATA = 'SET_USERDATA'
 
 // action creators:
 export const setMovies = (value) => ({
@@ -13,3 +14,7 @@ export const setFilter = (value) => ({
    value
 })
 
+export const setUserData = (value) => ({
+   type: SET_USERDATA, 
+   value 
+})
