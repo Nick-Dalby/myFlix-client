@@ -6,20 +6,16 @@ import { Col } from 'react-bootstrap';
 import VisibilityFilterInput from '../visibility-filter/visibility-filter-input';
 import MovieCard from '../movie-card/movie-card';
 
-const mapStateToProps = state => {
-  const { visibilityFilter } = state
-  return { visibilityFilter }
-}
 
 function MoviesList({ movies, visibilityFilter }) {
   let filteredMovies = movies
-
+  
   if (visibilityFilter !== '') {
     filteredMovies = movies.filter(movie => movie.Title.toLowerCase().includes(visibilityFilter.toLowerCase()))
   }
-
+  
   if (!movies) return <div className='main-view'/>
-
+  
   return <>
   <Col md={12} style={{ margin: '1em' }}>
   <VisibilityFilterInput visibilityFilter={visibilityFilter}/>
@@ -31,10 +27,14 @@ function MoviesList({ movies, visibilityFilter }) {
         <MovieCard movie={movie}/>
       </Col>
     ))
-
+    
   }
   </>
 
 }
 
+const mapStateToProps = state => {
+  const { visibilityFilter } = state
+  return { visibilityFilter }
+}
 export default connect(mapStateToProps) (MoviesList)

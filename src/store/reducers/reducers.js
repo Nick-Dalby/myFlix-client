@@ -21,6 +21,9 @@ function movies(state = [], action) {
   }
 }
 
+
+
+
 // combined reducer:
 // function moviesApp(state = {}, action) {
 //   return {
@@ -34,4 +37,4 @@ const moviesApp = combineReducers({
   movies,
 })
 
-export default moviesApp
+export default rootReducer

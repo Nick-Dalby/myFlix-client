@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { Form } from 'react-bootstrap';
 
-import { setFilter } from '../../actions/actions';
+import { setFilter } from '../../store/actions/actions';
 
 function VisibilityFilterInput({ visibilityFilter, setFilter }) {
   return (

@@ -2,8 +2,8 @@ import React from 'react'
 import axios from 'axios'
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 
-import { connect } from 'react-redux';
-import { setMovies } from '../../actions/actions'
+import { connect } from 'react-redux'
+import { setMovies } from '../../store/actions/actions'
 
 import { Container, Row, Col } from 'react-bootstrap'
 
@@ -25,22 +25,18 @@ class MainView extends React.Component {
     super()
     this.state = {
       user: null,
-      userData: [],
     }
   }
 
   onLoggedIn(authData) {
     this.setState({
       user: authData.user.Username,
-      userData: authData
     })
 
     localStorage.setItem('token', authData.token)
     localStorage.setItem('user', authData.user.Username)
     this.getMovies(authData.token)
   }
-
-
 
   componentDidMount() {
     let accessToken = localStorage.getItem('token')
@@ -58,9 +54,9 @@ class MainView extends React.Component {
       .get('https://afternoon-badlands-59179.herokuapp.com/movies', {
         headers: { Authorization: `Bearer ${token}` },
       })
-      .then(response => {
+      .then((response) => {
         this.props.setMovies(response.data)
-        })
+      })
       .catch(function (error) {
         console.log(error)
       })
@@ -68,7 +64,7 @@ class MainView extends React.Component {
 
   render() {
     const { movies } = this.props
-    const { user, userData } = this.state
+    const { user } = this.state
 
     const onLoggedOut = () => {
       localStorage.removeItem('token')
@@ -88,13 +84,12 @@ class MainView extends React.Component {
               path="/"
               render={() => {
                 if (!user)
-                  return ( 
+                  return (
                     <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
-                    )
+                  )
                 if (movies.length === 0) return <div className="main-view" />
-                return (
-                    <MoviesList movies={movies}/>
-                )}}
+                return <MoviesList movies={movies} />
+              }}
             />
           </Row>
 
@@ -124,7 +119,7 @@ class MainView extends React.Component {
             }}
           />
 
-<Route
+          <Route
             path={`/favorites/:user`}
             render={({ history }) => {
               if (!user)
@@ -137,7 +132,10 @@ class MainView extends React.Component {
               if (movies.length === 0) return <div className="main-view" />
               return (
                 <Col md={5}>
-                  <FavoriteMovies onBackClick={() => history.goBack()} movies={movies}/>
+                  <FavoriteMovies
+                    onBackClick={() => history.goBack()}
+                    movies={movies}
+                  />
                 </Col>
               )
             }}
@@ -244,8 +242,8 @@ class MainView extends React.Component {
     )
   }
 }
-let mapStateToProps = state => {
+let mapStateToProps = (state) => {
   return { movies: state.movies }
 }
 
-export default connect(mapStateToProps, { setMovies } ) (MainView)
+export default connect(mapStateToProps, { setMovies })(MainView)
