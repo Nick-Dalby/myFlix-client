@@ -1,43 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { useDispatch } from 'react-redux'
+import { addFavorite, removeFavorite } from '../../store/actions/actions'
 
 import { Button } from 'react-bootstrap'
 
 const FavButton = ({ movie }) => {
-  const [favMovies, setFavMovies] = useState([])
-  const [isFav, setIsFav] = useState(false)
+  //need to get the fav list from api and add to initial state rather than this...
+  const [isFav, setIsFav] = useState(false) 
 
   const token = localStorage.getItem('token')
   const user = localStorage.getItem('user')
 
-  // get array of users favorite movies
-  useEffect(() => {
-    const getFavorites = () => {
-      axios
-        .get(`https://afternoon-badlands-59179.herokuapp.com/users/${user}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((response) => {
-          setFavMovies(response.data.FavoriteMovies)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    }
-    getFavorites()
-  }, [isFav])
-
-
-
-  // if movie._id exists in users (favMovies) then set a boolean for that movie._id to true
-  useEffect(() => {
-    if (favMovies.indexOf(movie._id) !== -1) {
-      setIsFav(true)
-    }
-  }, [favMovies])
+  const dispatch = useDispatch()
 
   // post request to api endpoint then set state of isFav to true
-  function addToFavorites() {
+  // then dispatch add favorite action to reducer
+  function addToFavorites(movie) {
     axios
       .post(
         `https://afternoon-badlands-59179.herokuapp.com/users/${user}/movies/${movie._id}`,
@@ -49,6 +28,7 @@ const FavButton = ({ movie }) => {
       .then((response) => {
         console.log('added')
         setIsFav(true)
+        dispatch(addFavorite(movie))
       })
       .catch((error) => {
         console.log(error)
@@ -56,6 +36,7 @@ const FavButton = ({ movie }) => {
   }
 
   // delete request to api endpoint then set state of isFav to false
+  // then dispatch remove favorite action to reducer
   function removeFromFavorites() {
     axios
       .delete(
@@ -68,22 +49,21 @@ const FavButton = ({ movie }) => {
       .then((response) => {
         console.log('removed')
         setIsFav(false)
+        dispatch(removeFavorite(movie))
       })
       .catch((error) => {
         console.log(error)
       })
   }
 
-
-
   return (
     <>
       {isFav ? (
         <Button
           size="sm"
-          variant='warning'
+          variant="warning"
           onClick={() => {
-            removeFromFavorites()
+            removeFromFavorites(movie)
           }}
         >
           un-fav
@@ -91,9 +71,9 @@ const FavButton = ({ movie }) => {
       ) : (
         <Button
           size="sm"
-          variant='success'
+          variant="success"
           onClick={() => {
-            addToFavorites()
+            addToFavorites(movie)
           }}
         >
           fav
