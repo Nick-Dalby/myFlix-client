@@ -1,45 +1,40 @@
-import React from 'react';
+import React from 'react'
+import { NavLink,  } from 'react-router-dom'
 
-import { Button, Container, Navbar, Nav  } from 'react-bootstrap';
+import { Button, Container, Navbar, Nav } from 'react-bootstrap'
 
 export function Navbar({ user, onLoggedOut }) {
-
-
   const isAuth = () => {
     if (typeof window == 'undefined') {
-      return false;
+      return false
     }
     if (localStorage.getItem('token')) {
-      return localStorage.getItem('token');
+      return localStorage.getItem('token')
     } else {
-      return false;
+      return false
     }
-  };
+  }
 
   return (
     <Navbar bg="dark" variant="dark" fixed="top">
       <Container>
-        <Navbar.Brand href="/">MyFlix:</Navbar.Brand>
+        <NavLink to='/' className='navbar-brand'>MyFlix:</NavLink>
         <Nav>
-        <Nav.Link href={`/favorites/${user}`}>Favorites</Nav.Link>
-          {isAuth() && <Nav.Link href={`/users/${user}`}>{user}</Nav.Link>}
+          {isAuth() && <NavLink to={`/favorites/${user}`} className='nav-link'>Favorites</NavLink>}
+          {isAuth() && <NavLink to={`/users/${user}`} className='nav-link'>{user}</NavLink>}
           {isAuth() && (
-       
-            
-            <Button
-              variant="link"
+            <Nav.Link
               onClick={() => {
-                onLoggedOut();
+                onLoggedOut()
               }}
             >
               Logout
-            </Button>
-          
+            </Nav.Link>
           )}
-          {!isAuth() && <Nav.Link href="/">Login</Nav.Link>}
-          {!isAuth() && <Nav.Link href="/register">Sign-up</Nav.Link>}
+          {!isAuth() && <NavLink to="/" className='nav-link'>Login</NavLink>}
+          {!isAuth() && <NavLink to="/register" className='nav-link'>Sign-up</NavLink>}
         </Nav>
       </Container>
     </Navbar>
-  );
+  )
 }
