@@ -1,40 +1,43 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
 
-import { Col } from 'react-bootstrap';
 
-import VisibilityFilterInput from '../visibility-filter/visibility-filter-input';
-import MovieCard from '../movie-card/movie-card';
+import { Col } from 'react-bootstrap'
 
+import VisibilityFilterInput from '../visibility-filter/visibility-filter-input'
+import MovieCard from '../movie-card/movie-card'
 
 function MoviesList({ movies, visibilityFilter }) {
+
+
   let filteredMovies = movies
-  
+
   if (visibilityFilter !== '') {
-    filteredMovies = movies.filter(movie => movie.Title.toLowerCase().includes(visibilityFilter.toLowerCase()))
+    filteredMovies = movies.filter((movie) =>
+      movie.Title.toLowerCase().includes(visibilityFilter.toLowerCase())
+    )
   }
-  
-  if (!movies) return <div className='main-view'/>
-  
-  return <>
-  <Col md={12} style={{ margin: '1em' }}>
-  <VisibilityFilterInput visibilityFilter={visibilityFilter}/>
-  </Col>
 
-  {
-    filteredMovies.map(movie => (
-      <Col md={3} key={movie._id}>
-        <MovieCard movie={movie}/>
+  if (!movies) return <div className="main-view" />
+
+  return (
+    <>
+      <Col md={12} style={{ margin: '1em' }}>
+        <VisibilityFilterInput visibilityFilter={visibilityFilter} />
       </Col>
-    ))
-    
-  }
-  </>
 
+      {filteredMovies.map((movie) => (
+        <Col md={3} key={movie._id}>
+          <MovieCard movie={movie} />
+        </Col>
+      ))}
+    </>
+  )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { visibilityFilter } = state
   return { visibilityFilter }
 }
-export default connect(mapStateToProps) (MoviesList)
+
+export default connect(mapStateToProps)(MoviesList)
