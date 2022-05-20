@@ -1,31 +1,24 @@
-import React, {useEffect} from 'react'
-import { connect } from 'react-redux'
+import React from 'react'
 import MovieCard from '../movie-card/movie-card'
+import { connect } from 'react-redux'
 
+import { Col } from 'react-bootstrap'
 
-const Favorites = ({ movies, userData }) => {
-  let movieList = movies
-  let favMovies = userData.FavoriteMovies
-
-  let movie = movieList.filter((movie) => {
-    if (favMovies.indexOf(movie._id) !== -1) {
-      return movie
-    }
-  })
-
+const Favorites = ({ movies }) => {
   return (
     <>
-      {movie.map((movie) => {
-        return <MovieCard movie={movie} key={movie._id} />
-      })}
+      {movies.map((movie) => (
+        <Col md={3} key={movie._id}>
+          <MovieCard movie={movie} />
+        </Col>
+      ))}
     </>
   )
 }
 
-let mapStateToProps = (state) => {
+const mapStateToProps = (state) => {
   return {
-    movies: state.movies,
-    userData: state.userData,
+    movies: state.favorites
   }
 }
 
