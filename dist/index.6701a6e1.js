@@ -44534,9 +44534,7 @@ function ProfileView({ onBackClick  }) {
             });
         };
         getUserData();
-    }, [
-        user
-    ]);
+    }, []);
     const deleteUser = ()=>{
         if (confirm('are you sure?') == true) _axiosDefault.default.delete(`https://afternoon-badlands-59179.herokuapp.com/users/${user}`, {
             headers: {
