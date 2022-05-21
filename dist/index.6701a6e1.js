@@ -42529,10 +42529,14 @@ var _reactRedux = require("react-redux");
 var _actions = require("../../store/actions/actions");
 var _reactBootstrap = require("react-bootstrap");
 var _s = $RefreshSig$();
-const FavButton = ({ movie  })=>{
+const FavButton = ({ movie , favorites  })=>{
     _s();
     //need to get the fav list from api and add to initial state rather than this...
     const [isFav, setIsFav] = _react.useState(false);
+    _react.useEffect(()=>{
+        if (favorites.includes(movie)) setIsFav(true);
+        else setIsFav(false);
+    }, []);
     const token = localStorage.getItem('token');
     const user = localStorage.getItem('user');
     const dispatch = _reactRedux.useDispatch();
@@ -42575,7 +42579,7 @@ const FavButton = ({ movie  })=>{
             },
             __source: {
                 fileName: "src/components/fav-button/fav-button.jsx",
-                lineNumber: 62
+                lineNumber: 72
             },
             __self: undefined,
             children: "un-fav"
@@ -42587,18 +42591,23 @@ const FavButton = ({ movie  })=>{
             },
             __source: {
                 fileName: "src/components/fav-button/fav-button.jsx",
-                lineNumber: 72
+                lineNumber: 82
             },
             __self: undefined,
             children: "fav"
         })
     }));
 };
-_s(FavButton, "ekdRj3gv+KJczsp7Mc8NZEyyopg=", false, function() {
+_s(FavButton, "bXtGWgaI/3oRJXH8P61BcCtusdo=", false, function() {
     return [_reactRedux.useDispatch];
 });
 _c = FavButton;
-exports.default = FavButton;
+const mapStateToProps = (state)=>{
+    return {
+        favorites: state.favorites
+    };
+};
+exports.default = _reactRedux.connect(mapStateToProps)(FavButton);
 var _c;
 $RefreshReg$(_c, "FavButton");
 
@@ -45383,7 +45392,7 @@ $RefreshReg$(_c, "MovieCard");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","react-bootstrap":"h2YVd","@parcel/transformer-js/src/esmodule-helpers.js":"cGARn","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"5ODY1","./movie-card.scss":"cF5gT","react-router-dom":"cpyQW","../fav-button/fav-button":"3kaRY"}],"cF5gT":[function() {},{}],"27VsQ":[function(require,module,exports) {
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","react-router-dom":"cpyQW","react-bootstrap":"h2YVd","../fav-button/fav-button":"3kaRY","./movie-card.scss":"cF5gT","@parcel/transformer-js/src/esmodule-helpers.js":"cGARn","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"5ODY1"}],"cF5gT":[function() {},{}],"27VsQ":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$8cc6 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -45435,7 +45444,7 @@ $RefreshReg$(_c, "Favorites");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","../movie-card/movie-card":"6EiBJ","react-bootstrap":"h2YVd","@parcel/transformer-js/src/esmodule-helpers.js":"cGARn","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"5ODY1","react-redux":"2L0if"}],"8GWVf":[function(require,module,exports) {
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","../movie-card/movie-card":"6EiBJ","react-redux":"2L0if","react-bootstrap":"h2YVd","@parcel/transformer-js/src/esmodule-helpers.js":"cGARn","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"5ODY1"}],"8GWVf":[function(require,module,exports) {
 'use strict';
 var compose = require('redux').compose;
 exports.__esModule = true;
