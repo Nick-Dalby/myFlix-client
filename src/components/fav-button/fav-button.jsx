@@ -2,12 +2,22 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
 import { addFavorite, removeFavorite } from '../../store/actions/actions'
+import { connect } from 'react-redux'
 
 import { Button } from 'react-bootstrap'
 
-const FavButton = ({ movie }) => {
+const FavButton = ({ movie, favorites }) => {
   //need to get the fav list from api and add to initial state rather than this...
   const [isFav, setIsFav] = useState(false) 
+
+  useEffect(() => {
+    if (favorites.includes(movie)) {
+      setIsFav(true)
+    } else {
+      setIsFav(false)
+    }
+
+  },[])
 
   const token = localStorage.getItem('token')
   const user = localStorage.getItem('user')
@@ -83,4 +93,10 @@ const FavButton = ({ movie }) => {
   )
 }
 
-export default FavButton
+const mapStateToProps = (state) => {
+  return {
+    favorites: state.favorites
+  }
+}
+
+export default connect(mapStateToProps)(FavButton)
