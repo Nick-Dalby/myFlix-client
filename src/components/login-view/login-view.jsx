@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 
+
+
 import { Row, Col, Card, Form, Button } from 'react-bootstrap'
 
 const LoginView = ({ onLoggedIn }) => {
@@ -10,6 +12,8 @@ const LoginView = ({ onLoggedIn }) => {
 
   const [usernameErr, setUsernameErr] = useState('')
   const [passwordErr, setPasswordErr] = useState('')
+
+
 
   const validate = () => {
     let isReq = true
@@ -40,6 +44,7 @@ const LoginView = ({ onLoggedIn }) => {
       .then((response) => {
         const data = response.data
         onLoggedIn(data)
+
        
       })
       .catch((e) => {
