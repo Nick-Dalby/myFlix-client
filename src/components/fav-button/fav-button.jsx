@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { Button } from 'react-bootstrap'
 
 const FavButton = ({ movie, favorites }) => {
-  //need to get the fav list from api and add to initial state rather than this...
+
   const [isFav, setIsFav] = useState(false) 
 
   useEffect(() => {
@@ -18,6 +18,7 @@ const FavButton = ({ movie, favorites }) => {
     }
 
   },[])
+
 
   const token = localStorage.getItem('token')
   const user = localStorage.getItem('user')
@@ -95,7 +96,8 @@ const FavButton = ({ movie, favorites }) => {
 
 const mapStateToProps = (state) => {
   return {
-    favorites: state.favorites
+    favorites: state.favorites,
+
   }
 }
 
