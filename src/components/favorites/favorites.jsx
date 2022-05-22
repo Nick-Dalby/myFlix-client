@@ -1,13 +1,12 @@
 import React from 'react'
 import MovieCard from '../movie-card/movie-card'
 import { connect } from 'react-redux'
-
 import { Col } from 'react-bootstrap'
 
-const Favorites = ({ movies }) => {
+const Favorites = ({ favorites }) => {
   return (
     <>
-      {movies.map((movie) => (
+      {favorites.map((movie) => (
         <Col md={3} key={movie._id}>
           <MovieCard movie={movie} />
         </Col>
@@ -18,7 +17,7 @@ const Favorites = ({ movies }) => {
 
 const mapStateToProps = (state) => {
   return {
-    movies: state.favorites
+    favorites: state.favorites,
   }
 }
 
