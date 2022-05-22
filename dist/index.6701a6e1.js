@@ -45452,28 +45452,20 @@ var _movieCard = require("../movie-card/movie-card");
 var _movieCardDefault = parcelHelpers.interopDefault(_movieCard);
 var _reactRedux = require("react-redux");
 var _reactBootstrap = require("react-bootstrap");
-const Favorites = ({ movies , userDataFavoriteMovies , favorites  })=>{
-    // const dispatch = useDispatch()
-    // const favFilteredMovies = movies.filter(movie => userDataFavoriteMovies.includes(movie._id))
-    // // useEffect(() => {
-    // //   dispatch(setFavorites(favFilteredMovies))
-    // // },[])
-    // console.log(favorites);
-    // I want to get the users FavoriteMovies from the userData and use that to filter the movies list - then set this array as 
-    // the initial state for 'favorites' in the store
+const Favorites = ({ favorites  })=>{
     return(/*#__PURE__*/ _jsxRuntime.jsx(_jsxRuntime.Fragment, {
         children: favorites.map((movie)=>/*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
                 md: 3,
                 __source: {
                     fileName: "src/components/favorites/favorites.jsx",
-                    lineNumber: 24
+                    lineNumber: 10
                 },
                 __self: undefined,
                 children: /*#__PURE__*/ _jsxRuntime.jsx(_movieCardDefault.default, {
                     movie: movie,
                     __source: {
                         fileName: "src/components/favorites/favorites.jsx",
-                        lineNumber: 25
+                        lineNumber: 11
                     },
                     __self: undefined
                 })
@@ -45484,9 +45476,7 @@ const Favorites = ({ movies , userDataFavoriteMovies , favorites  })=>{
 _c = Favorites;
 const mapStateToProps = (state)=>{
     return {
-        movies: state.movies,
-        favorites: state.favorites,
-        userDataFavoriteMovies: state.userData.FavoriteMovies
+        favorites: state.favorites
     };
 };
 exports.default = _reactRedux.connect(mapStateToProps)(Favorites);
