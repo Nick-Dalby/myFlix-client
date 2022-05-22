@@ -25264,6 +25264,7 @@ class MainView extends _reactDefault.default.Component {
         localStorage.setItem('token', authData.token);
         localStorage.setItem('user', authData.user.Username);
         this.getMovies(authData.token);
+        this.getUser(authData.token);
     }
     componentDidMount() {
         let accessToken = localStorage.getItem('token');
@@ -25272,6 +25273,15 @@ class MainView extends _reactDefault.default.Component {
                 user: localStorage.getItem('user')
             });
             this.getMovies(accessToken);
+            this.getUser(accessToken);
+        }
+    }
+    componentDidUpdate() {
+        if (this.props.movies && this.props.userFavList) {
+            const filteredFavorites = this.props.movies.filter((movie)=>this.props.userFavList.includes(movie._id)
+            );
+            this.props.setFavorites(filteredFavorites) //need to make the fav button update after this is set on first round of render
+            ;
         }
     }
     getMovies(token) {
@@ -25281,6 +25291,18 @@ class MainView extends _reactDefault.default.Component {
             }
         }).then((response)=>{
             this.props.setMovies(response.data);
+        }).catch(function(error) {
+            console.log(error);
+        });
+    }
+    getUser(token) {
+        let user = localStorage.getItem('user');
+        _axiosDefault.default.get(`https://afternoon-badlands-59179.herokuapp.com/users/${user}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then((response)=>{
+            this.props.setUserData(response.data);
         }).catch(function(error) {
             console.log(error);
         });
@@ -25298,7 +25320,7 @@ class MainView extends _reactDefault.default.Component {
         return(/*#__PURE__*/ _jsxRuntime.jsxs(_reactRouterDom.BrowserRouter, {
             __source: {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 78
+                lineNumber: 110
             },
             __self: this,
             children: [
@@ -25308,14 +25330,14 @@ class MainView extends _reactDefault.default.Component {
                     ,
                     __source: {
                         fileName: "src/components/main-view/main-view.jsx",
-                        lineNumber: 79
+                        lineNumber: 111
                     },
                     __self: this
                 }),
                 /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Container, {
                     __source: {
                         fileName: "src/components/main-view/main-view.jsx",
-                        lineNumber: 80
+                        lineNumber: 112
                     },
                     __self: this,
                     children: [
@@ -25323,7 +25345,7 @@ class MainView extends _reactDefault.default.Component {
                             className: "main-view justify-content-md-center",
                             __source: {
                                 fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 81
+                                lineNumber: 113
                             },
                             __self: this,
                             children: /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Route, {
@@ -25342,7 +25364,7 @@ class MainView extends _reactDefault.default.Component {
                                 },
                                 __source: {
                                     fileName: "src/components/main-view/main-view.jsx",
-                                    lineNumber: 82
+                                    lineNumber: 114
                                 },
                                 __self: this
                             })
@@ -25358,7 +25380,7 @@ class MainView extends _reactDefault.default.Component {
                             },
                             __source: {
                                 fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 96
+                                lineNumber: 128
                             },
                             __self: this
                         }),
@@ -25379,7 +25401,7 @@ class MainView extends _reactDefault.default.Component {
                             },
                             __source: {
                                 fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 104
+                                lineNumber: 136
                             },
                             __self: this
                         }),
@@ -25387,7 +25409,7 @@ class MainView extends _reactDefault.default.Component {
                             className: "justify-content-md-center",
                             __source: {
                                 fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 121
+                                lineNumber: 153
                             },
                             __self: this,
                             children: /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Route, {
@@ -25406,7 +25428,7 @@ class MainView extends _reactDefault.default.Component {
                                 },
                                 __source: {
                                     fileName: "src/components/main-view/main-view.jsx",
-                                    lineNumber: 122
+                                    lineNumber: 154
                                 },
                                 __self: this
                             })
@@ -25430,7 +25452,7 @@ class MainView extends _reactDefault.default.Component {
                             },
                             __source: {
                                 fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 138
+                                lineNumber: 170
                             },
                             __self: this
                         }),
@@ -25455,7 +25477,7 @@ class MainView extends _reactDefault.default.Component {
                             },
                             __source: {
                                 fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 157
+                                lineNumber: 189
                             },
                             __self: this
                         }),
@@ -25480,7 +25502,7 @@ class MainView extends _reactDefault.default.Component {
                             },
                             __source: {
                                 fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 183
+                                lineNumber: 215
                             },
                             __self: this
                         }),
@@ -25509,7 +25531,7 @@ class MainView extends _reactDefault.default.Component {
                             },
                             __source: {
                                 fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 209
+                                lineNumber: 241
                             },
                             __self: this
                         })
@@ -25521,11 +25543,14 @@ class MainView extends _reactDefault.default.Component {
 }
 let mapStateToProps = (state)=>{
     return {
-        movies: state.movies
+        movies: state.movies,
+        userFavList: state.userData.FavoriteMovies
     };
 };
 exports.default = _reactRedux.connect(mapStateToProps, {
-    setMovies: _actions.setMovies
+    setMovies: _actions.setMovies,
+    setUserData: _actions.setUserData,
+    setFavorites: _actions.setFavorites
 })(MainView);
 
   $parcel$ReactRefreshHelpers$35bf.postlude(module);
@@ -42191,32 +42216,32 @@ const LoginView = ({ onLoggedIn  })=>{
         className: "main-view justify-content-md-center",
         __source: {
             fileName: "src/components/login-view/login-view.jsx",
-            lineNumber: 51
+            lineNumber: 56
         },
         __self: undefined,
         children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
             md: 8,
             __source: {
                 fileName: "src/components/login-view/login-view.jsx",
-                lineNumber: 52
+                lineNumber: 57
             },
             __self: undefined,
             children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card, {
                 __source: {
                     fileName: "src/components/login-view/login-view.jsx",
-                    lineNumber: 53
+                    lineNumber: 58
                 },
                 __self: undefined,
                 children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card.Body, {
                     __source: {
                         fileName: "src/components/login-view/login-view.jsx",
-                        lineNumber: 54
+                        lineNumber: 59
                     },
                     __self: undefined,
                     children: /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Form, {
                         __source: {
                             fileName: "src/components/login-view/login-view.jsx",
-                            lineNumber: 55
+                            lineNumber: 60
                         },
                         __self: undefined,
                         children: [
@@ -42225,14 +42250,14 @@ const LoginView = ({ onLoggedIn  })=>{
                                 className: "mb-3",
                                 __source: {
                                     fileName: "src/components/login-view/login-view.jsx",
-                                    lineNumber: 56
+                                    lineNumber: 61
                                 },
                                 __self: undefined,
                                 children: [
                                     /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Label, {
                                         __source: {
                                             fileName: "src/components/login-view/login-view.jsx",
-                                            lineNumber: 57
+                                            lineNumber: 62
                                         },
                                         __self: undefined,
                                         children: "Username:"
@@ -42245,7 +42270,7 @@ const LoginView = ({ onLoggedIn  })=>{
                                         ,
                                         __source: {
                                             fileName: "src/components/login-view/login-view.jsx",
-                                            lineNumber: 58
+                                            lineNumber: 63
                                         },
                                         __self: undefined
                                     }),
@@ -42253,7 +42278,7 @@ const LoginView = ({ onLoggedIn  })=>{
                                         className: "error",
                                         __source: {
                                             fileName: "src/components/login-view/login-view.jsx",
-                                            lineNumber: 64
+                                            lineNumber: 69
                                         },
                                         __self: undefined,
                                         children: usernameErr
@@ -42265,14 +42290,14 @@ const LoginView = ({ onLoggedIn  })=>{
                                 className: "mb-3",
                                 __source: {
                                     fileName: "src/components/login-view/login-view.jsx",
-                                    lineNumber: 66
+                                    lineNumber: 71
                                 },
                                 __self: undefined,
                                 children: [
                                     /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Label, {
                                         __source: {
                                             fileName: "src/components/login-view/login-view.jsx",
-                                            lineNumber: 67
+                                            lineNumber: 72
                                         },
                                         __self: undefined,
                                         children: "Password:"
@@ -42285,7 +42310,7 @@ const LoginView = ({ onLoggedIn  })=>{
                                         ,
                                         __source: {
                                             fileName: "src/components/login-view/login-view.jsx",
-                                            lineNumber: 68
+                                            lineNumber: 73
                                         },
                                         __self: undefined
                                     }),
@@ -42293,7 +42318,7 @@ const LoginView = ({ onLoggedIn  })=>{
                                         className: "error",
                                         __source: {
                                             fileName: "src/components/login-view/login-view.jsx",
-                                            lineNumber: 74
+                                            lineNumber: 79
                                         },
                                         __self: undefined,
                                         children: passwordErr
@@ -42304,7 +42329,7 @@ const LoginView = ({ onLoggedIn  })=>{
                                 className: "d-flex justify-content-between",
                                 __source: {
                                     fileName: "src/components/login-view/login-view.jsx",
-                                    lineNumber: 76
+                                    lineNumber: 81
                                 },
                                 __self: undefined,
                                 children: [
@@ -42314,7 +42339,7 @@ const LoginView = ({ onLoggedIn  })=>{
                                         onClick: handleSubmit,
                                         __source: {
                                             fileName: "src/components/login-view/login-view.jsx",
-                                            lineNumber: 77
+                                            lineNumber: 82
                                         },
                                         __self: undefined,
                                         children: "Login"
@@ -42325,7 +42350,7 @@ const LoginView = ({ onLoggedIn  })=>{
                                         type: "submit",
                                         __source: {
                                             fileName: "src/components/login-view/login-view.jsx",
-                                            lineNumber: 80
+                                            lineNumber: 85
                                         },
                                         __self: undefined,
                                         children: "Sign-up"
@@ -42531,7 +42556,6 @@ var _reactBootstrap = require("react-bootstrap");
 var _s = $RefreshSig$();
 const FavButton = ({ movie , favorites  })=>{
     _s();
-    //need to get the fav list from api and add to initial state rather than this...
     const [isFav, setIsFav] = _react.useState(false);
     _react.useEffect(()=>{
         if (favorites.includes(movie)) setIsFav(true);
@@ -42579,7 +42603,7 @@ const FavButton = ({ movie , favorites  })=>{
             },
             __source: {
                 fileName: "src/components/fav-button/fav-button.jsx",
-                lineNumber: 72
+                lineNumber: 73
             },
             __self: undefined,
             children: "un-fav"
@@ -42591,7 +42615,7 @@ const FavButton = ({ movie , favorites  })=>{
             },
             __source: {
                 fileName: "src/components/fav-button/fav-button.jsx",
-                lineNumber: 82
+                lineNumber: 83
             },
             __self: undefined,
             children: "fav"
@@ -44159,18 +44183,28 @@ parcelHelpers.export(exports, "ADD_FAVORITE", ()=>ADD_FAVORITE
 );
 parcelHelpers.export(exports, "REMOVE_FAVORITE", ()=>REMOVE_FAVORITE
 );
+parcelHelpers.export(exports, "SET_USERDATA", ()=>SET_USERDATA
+);
+parcelHelpers.export(exports, "SET_FAVORITES", ()=>SET_FAVORITES
+);
 parcelHelpers.export(exports, "setMovies", ()=>setMovies
 );
 parcelHelpers.export(exports, "setFilter", ()=>setFilter
+);
+parcelHelpers.export(exports, "setFavorites", ()=>setFavorites
 );
 parcelHelpers.export(exports, "addFavorite", ()=>addFavorite
 );
 parcelHelpers.export(exports, "removeFavorite", ()=>removeFavorite
 );
+parcelHelpers.export(exports, "setUserData", ()=>setUserData
+);
 const SET_MOVIES = 'SET_MOVIES';
 const SET_FILTER = 'SET_FILTER';
 const ADD_FAVORITE = 'ADD_FAVORITE';
 const REMOVE_FAVORITE = 'REMOVE_FAVORITE';
+const SET_USERDATA = 'SET_USERDATA';
+const SET_FAVORITES = 'SET_FAVORITES';
 const setMovies = (value)=>({
         type: SET_MOVIES,
         value
@@ -44178,6 +44212,11 @@ const setMovies = (value)=>({
 ;
 const setFilter = (value)=>({
         type: SET_FILTER,
+        value
+    })
+;
+const setFavorites = (value)=>({
+        type: SET_FAVORITES,
         value
     })
 ;
@@ -44189,6 +44228,11 @@ const addFavorite = (movie)=>({
 const removeFavorite = (movie)=>({
         type: REMOVE_FAVORITE,
         payload: movie
+    })
+;
+const setUserData = (value)=>({
+        type: SET_USERDATA,
+        value
     })
 ;
 
@@ -45332,14 +45376,14 @@ const MovieCard = ({ movie  })=>{
                 crossOrigin: "anonymous",
                 __source: {
                     fileName: "src/components/movie-card/movie-card.jsx",
-                    lineNumber: 14
+                    lineNumber: 15
                 },
                 __self: undefined
             }),
             /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card.Title, {
                 __source: {
                     fileName: "src/components/movie-card/movie-card.jsx",
-                    lineNumber: 15
+                    lineNumber: 16
                 },
                 __self: undefined,
                 children: movie.Title
@@ -45348,7 +45392,7 @@ const MovieCard = ({ movie  })=>{
                 className: "d-flex justify-content-between",
                 __source: {
                     fileName: "src/components/movie-card/movie-card.jsx",
-                    lineNumber: 16
+                    lineNumber: 17
                 },
                 __self: undefined,
                 children: [
@@ -45356,14 +45400,14 @@ const MovieCard = ({ movie  })=>{
                         to: `/movies/${movie._id}`,
                         __source: {
                             fileName: "src/components/movie-card/movie-card.jsx",
-                            lineNumber: 17
+                            lineNumber: 18
                         },
                         __self: undefined,
                         children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Button, {
                             size: "sm",
                             __source: {
                                 fileName: "src/components/movie-card/movie-card.jsx",
-                                lineNumber: 18
+                                lineNumber: 19
                             },
                             __self: undefined,
                             children: "open"
@@ -45373,7 +45417,7 @@ const MovieCard = ({ movie  })=>{
                         movie: movie,
                         __source: {
                             fileName: "src/components/movie-card/movie-card.jsx",
-                            lineNumber: 20
+                            lineNumber: 21
                         },
                         __self: undefined
                     })
@@ -45408,20 +45452,28 @@ var _movieCard = require("../movie-card/movie-card");
 var _movieCardDefault = parcelHelpers.interopDefault(_movieCard);
 var _reactRedux = require("react-redux");
 var _reactBootstrap = require("react-bootstrap");
-const Favorites = ({ movies  })=>{
+const Favorites = ({ movies , userDataFavoriteMovies , favorites  })=>{
+    // const dispatch = useDispatch()
+    // const favFilteredMovies = movies.filter(movie => userDataFavoriteMovies.includes(movie._id))
+    // // useEffect(() => {
+    // //   dispatch(setFavorites(favFilteredMovies))
+    // // },[])
+    // console.log(favorites);
+    // I want to get the users FavoriteMovies from the userData and use that to filter the movies list - then set this array as 
+    // the initial state for 'favorites' in the store
     return(/*#__PURE__*/ _jsxRuntime.jsx(_jsxRuntime.Fragment, {
-        children: movies.map((movie)=>/*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
+        children: favorites.map((movie)=>/*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
                 md: 3,
                 __source: {
                     fileName: "src/components/favorites/favorites.jsx",
-                    lineNumber: 11
+                    lineNumber: 24
                 },
                 __self: undefined,
                 children: /*#__PURE__*/ _jsxRuntime.jsx(_movieCardDefault.default, {
                     movie: movie,
                     __source: {
                         fileName: "src/components/favorites/favorites.jsx",
-                        lineNumber: 12
+                        lineNumber: 25
                     },
                     __self: undefined
                 })
@@ -45432,7 +45484,9 @@ const Favorites = ({ movies  })=>{
 _c = Favorites;
 const mapStateToProps = (state)=>{
     return {
-        movies: state.favorites
+        movies: state.movies,
+        favorites: state.favorites,
+        userDataFavoriteMovies: state.userData.FavoriteMovies
     };
 };
 exports.default = _reactRedux.connect(mapStateToProps)(Favorites);
@@ -46061,6 +46115,8 @@ function movies(state = [], action) {
 }
 function favorites(state = [], action) {
     switch(action.type){
+        case _actions.SET_FAVORITES:
+            return action.value;
         case _actions.ADD_FAVORITE:
             return [
                 ...state,
@@ -46073,10 +46129,19 @@ function favorites(state = [], action) {
             return state;
     }
 }
+function userData(state = [], action) {
+    switch(action.type){
+        case _actions.SET_USERDATA:
+            return action.value;
+        default:
+            return state;
+    }
+}
 const rootReducer = _redux.combineReducers({
     visibilityFilter,
     movies,
-    favorites
+    favorites,
+    userData
 });
 exports.default = rootReducer;
 
