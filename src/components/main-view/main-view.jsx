@@ -3,7 +3,11 @@ import axios from 'axios'
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 
 import { connect } from 'react-redux'
-import { setMovies } from '../../store/actions/actions'
+import {
+  setMovies,
+  setUserData,
+  setFavorites,
+} from '../../store/actions/actions'
 
 import { Container, Row, Col } from 'react-bootstrap'
 
@@ -36,6 +40,8 @@ class MainView extends React.Component {
     localStorage.setItem('token', authData.token)
     localStorage.setItem('user', authData.user.Username)
     this.getMovies(authData.token)
+    this.getUser(authData.token)
+
   }
 
   componentDidMount() {
@@ -46,7 +52,19 @@ class MainView extends React.Component {
         user: localStorage.getItem('user'),
       })
       this.getMovies(accessToken)
+      this.getUser(accessToken)
     }
+  }
+
+  componentDidUpdate() {
+    if (this.props.movies && this.props.userFavList) {
+
+      const filteredFavorites = this.props.movies.filter((movie) =>
+      this.props.userFavList.includes(movie._id)
+      )
+      this.props.setFavorites(filteredFavorites) //need to make the fav button update after this is set on first round of render
+    }
+
   }
 
   getMovies(token) {
@@ -56,6 +74,20 @@ class MainView extends React.Component {
       })
       .then((response) => {
         this.props.setMovies(response.data)
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  }
+
+  getUser(token) {
+    let user = localStorage.getItem('user')
+    axios
+      .get(`https://afternoon-badlands-59179.herokuapp.com/users/${user}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        this.props.setUserData(response.data)
       })
       .catch(function (error) {
         console.log(error)
@@ -239,7 +271,8 @@ class MainView extends React.Component {
 let mapStateToProps = (state) => {
   return {
     movies: state.movies,
+    userFavList: state.userData.FavoriteMovies,
   }
 }
 
-export default connect(mapStateToProps, { setMovies })(MainView)
+export default connect(mapStateToProps, { setMovies, setUserData, setFavorites })(MainView)
