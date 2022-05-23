@@ -25280,9 +25280,13 @@ class MainView extends _reactDefault.default.Component {
         if (this.props.movies && this.props.userFavList) {
             const filteredFavorites = this.props.movies.filter((movie)=>this.props.userFavList.includes(movie._id)
             );
-            this.props.setFavorites(filteredFavorites) //need to make the fav button update after this is set on first round of render
-            ;
+            this.props.setFavorites(filteredFavorites);
         }
+    }
+    initFavs() {
+        const filteredFavorites = this.props.movies.filter((movie)=>this.props.userFavList.includes(movie._id)
+        );
+        this.props.setFavorites(filteredFavorites);
     }
     getMovies(token) {
         _axiosDefault.default.get('https://afternoon-badlands-59179.herokuapp.com/movies', {
@@ -25320,7 +25324,7 @@ class MainView extends _reactDefault.default.Component {
         return(/*#__PURE__*/ _jsxRuntime.jsxs(_reactRouterDom.BrowserRouter, {
             __source: {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 110
+                lineNumber: 116
             },
             __self: this,
             children: [
@@ -25330,14 +25334,14 @@ class MainView extends _reactDefault.default.Component {
                     ,
                     __source: {
                         fileName: "src/components/main-view/main-view.jsx",
-                        lineNumber: 111
+                        lineNumber: 117
                     },
                     __self: this
                 }),
                 /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Container, {
                     __source: {
                         fileName: "src/components/main-view/main-view.jsx",
-                        lineNumber: 112
+                        lineNumber: 118
                     },
                     __self: this,
                     children: [
@@ -25345,7 +25349,7 @@ class MainView extends _reactDefault.default.Component {
                             className: "main-view justify-content-md-center",
                             __source: {
                                 fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 113
+                                lineNumber: 119
                             },
                             __self: this,
                             children: /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Route, {
@@ -25364,7 +25368,7 @@ class MainView extends _reactDefault.default.Component {
                                 },
                                 __source: {
                                     fileName: "src/components/main-view/main-view.jsx",
-                                    lineNumber: 114
+                                    lineNumber: 120
                                 },
                                 __self: this
                             })
@@ -25380,7 +25384,7 @@ class MainView extends _reactDefault.default.Component {
                             },
                             __source: {
                                 fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 128
+                                lineNumber: 134
                             },
                             __self: this
                         }),
@@ -25401,7 +25405,7 @@ class MainView extends _reactDefault.default.Component {
                             },
                             __source: {
                                 fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 136
+                                lineNumber: 142
                             },
                             __self: this
                         }),
@@ -25409,7 +25413,7 @@ class MainView extends _reactDefault.default.Component {
                             className: "justify-content-md-center",
                             __source: {
                                 fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 153
+                                lineNumber: 159
                             },
                             __self: this,
                             children: /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Route, {
@@ -25428,7 +25432,7 @@ class MainView extends _reactDefault.default.Component {
                                 },
                                 __source: {
                                     fileName: "src/components/main-view/main-view.jsx",
-                                    lineNumber: 154
+                                    lineNumber: 160
                                 },
                                 __self: this
                             })
@@ -25452,7 +25456,7 @@ class MainView extends _reactDefault.default.Component {
                             },
                             __source: {
                                 fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 170
+                                lineNumber: 176
                             },
                             __self: this
                         }),
@@ -25477,7 +25481,7 @@ class MainView extends _reactDefault.default.Component {
                             },
                             __source: {
                                 fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 189
+                                lineNumber: 195
                             },
                             __self: this
                         }),
@@ -25502,7 +25506,7 @@ class MainView extends _reactDefault.default.Component {
                             },
                             __source: {
                                 fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 215
+                                lineNumber: 221
                             },
                             __self: this
                         }),
@@ -25531,7 +25535,7 @@ class MainView extends _reactDefault.default.Component {
                             },
                             __source: {
                                 fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 241
+                                lineNumber: 247
                             },
                             __self: this
                         })
@@ -42560,7 +42564,9 @@ const FavButton = ({ movie , favorites  })=>{
     _react.useEffect(()=>{
         if (favorites.includes(movie)) setIsFav(true);
         else setIsFav(false);
-    }, []);
+    }, [
+        favorites
+    ]);
     const token = localStorage.getItem('token');
     const user = localStorage.getItem('user');
     const dispatch = _reactRedux.useDispatch();
