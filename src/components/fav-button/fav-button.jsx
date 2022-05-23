@@ -17,7 +17,7 @@ const FavButton = ({ movie, favorites }) => {
       setIsFav(false)
     }
 
-  },[])
+  },[favorites])
 
 
   const token = localStorage.getItem('token')
