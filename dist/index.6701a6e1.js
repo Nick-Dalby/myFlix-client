@@ -25283,11 +25283,6 @@ class MainView extends _reactDefault.default.Component {
             this.props.setFavorites(filteredFavorites);
         }
     }
-    initFavs() {
-        const filteredFavorites = this.props.movies.filter((movie)=>this.props.userFavList.includes(movie._id)
-        );
-        this.props.setFavorites(filteredFavorites);
-    }
     getMovies(token) {
         _axiosDefault.default.get('https://afternoon-badlands-59179.herokuapp.com/movies', {
             headers: {
@@ -25324,7 +25319,7 @@ class MainView extends _reactDefault.default.Component {
         return(/*#__PURE__*/ _jsxRuntime.jsxs(_reactRouterDom.BrowserRouter, {
             __source: {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 116
+                lineNumber: 109
             },
             __self: this,
             children: [
@@ -25334,14 +25329,14 @@ class MainView extends _reactDefault.default.Component {
                     ,
                     __source: {
                         fileName: "src/components/main-view/main-view.jsx",
-                        lineNumber: 117
+                        lineNumber: 110
                     },
                     __self: this
                 }),
                 /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Container, {
                     __source: {
                         fileName: "src/components/main-view/main-view.jsx",
-                        lineNumber: 118
+                        lineNumber: 111
                     },
                     __self: this,
                     children: [
@@ -25349,7 +25344,7 @@ class MainView extends _reactDefault.default.Component {
                             className: "main-view justify-content-md-center",
                             __source: {
                                 fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 119
+                                lineNumber: 112
                             },
                             __self: this,
                             children: /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Route, {
@@ -25368,7 +25363,7 @@ class MainView extends _reactDefault.default.Component {
                                 },
                                 __source: {
                                     fileName: "src/components/main-view/main-view.jsx",
-                                    lineNumber: 120
+                                    lineNumber: 113
                                 },
                                 __self: this
                             })
@@ -25384,7 +25379,7 @@ class MainView extends _reactDefault.default.Component {
                             },
                             __source: {
                                 fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 134
+                                lineNumber: 127
                             },
                             __self: this
                         }),
@@ -25405,7 +25400,7 @@ class MainView extends _reactDefault.default.Component {
                             },
                             __source: {
                                 fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 142
+                                lineNumber: 135
                             },
                             __self: this
                         }),
@@ -25413,7 +25408,7 @@ class MainView extends _reactDefault.default.Component {
                             className: "justify-content-md-center",
                             __source: {
                                 fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 159
+                                lineNumber: 152
                             },
                             __self: this,
                             children: /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Route, {
@@ -25432,7 +25427,7 @@ class MainView extends _reactDefault.default.Component {
                                 },
                                 __source: {
                                     fileName: "src/components/main-view/main-view.jsx",
-                                    lineNumber: 160
+                                    lineNumber: 153
                                 },
                                 __self: this
                             })
@@ -25456,7 +25451,7 @@ class MainView extends _reactDefault.default.Component {
                             },
                             __source: {
                                 fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 176
+                                lineNumber: 169
                             },
                             __self: this
                         }),
@@ -25481,7 +25476,7 @@ class MainView extends _reactDefault.default.Component {
                             },
                             __source: {
                                 fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 195
+                                lineNumber: 188
                             },
                             __self: this
                         }),
@@ -25506,7 +25501,7 @@ class MainView extends _reactDefault.default.Component {
                             },
                             __source: {
                                 fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 221
+                                lineNumber: 214
                             },
                             __self: this
                         }),
@@ -25535,7 +25530,7 @@ class MainView extends _reactDefault.default.Component {
                             },
                             __source: {
                                 fileName: "src/components/main-view/main-view.jsx",
-                                lineNumber: 247
+                                lineNumber: 240
                             },
                             __self: this
                         })
