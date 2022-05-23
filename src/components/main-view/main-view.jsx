@@ -62,9 +62,8 @@ class MainView extends React.Component {
       const filteredFavorites = this.props.movies.filter((movie) =>
       this.props.userFavList.includes(movie._id)
       )
-      this.props.setFavorites(filteredFavorites) //need to make the fav button update after this is set on first round of render
+      this.props.setFavorites(filteredFavorites)
     }
-
   }
 
   getMovies(token) {
